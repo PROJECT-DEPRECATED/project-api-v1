@@ -1,5 +1,9 @@
+# IDE 
 .vscode/
 .idea/
 
-run_site
+# excution files
+project-api
+
+# configuration files
 config.json
