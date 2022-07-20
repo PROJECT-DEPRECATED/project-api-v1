@@ -1,0 +1,10 @@
+{
+    "password_salt": "PASSWORD_SALT",
+    "database": {
+        "url": "MONGO_DATABASE_URL",
+        "port": 27017,
+        "db_name": "projecttl-website",
+        "username": "MONGO_DATABASE_USERNAME",
+        "password": "MONGO_DATABASE_PASSWORD"
+    }
+}
