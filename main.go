@@ -3,9 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 
-	"github.com/devproje/project-website/api"
 	"github.com/devproje/project-website/config"
+	"github.com/devproje/project-website/log"
+	"github.com/devproje/project-website/routes"
 	"github.com/devproje/project-website/utils"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -24,6 +26,16 @@ func init() {
 }
 
 func main() {
+	_, err := config.Get()
+	if err != nil {
+		err2 := os.WriteFile("config.json", []byte(config.GetSample), 0666)
+		if err2 != nil {
+			log.Logger.Fatalf("failed to create 'config.json'\n%v", err)
+		}
+
+		log.Logger.Fatalf("'config.json' isn't exist!\n%v", err)
+	}
+
 	if !debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -33,22 +45,14 @@ func main() {
 	app := gin.Default()
 	cor := cors.DefaultConfig()
 
-	app.Use(favicon.New("./frontend/public/favicon.ico"))
+	app.Use(favicon.New("./resources/favicon.ico"))
 
 	cor.AllowOrigins = []string{"*"}
 	app.Use(cors.New(cor))
 
-	app.GET("/", func(ctx *gin.Context) {
-		ctx.Redirect(301, config.Get().URL+"/api")
-	})
-
-	v1 := app.Group("/v1")
-	{
-		v1.GET("/hangang", api.Hangang)
-		v1.GET("/hangang/:area", api.Hangang)
-
-		v1.GET("/current", api.CurrentTime)
-	}
+	routes.Index(app)
+	routes.APIV1(app)
+	routes.Resources(app)
 
 	app.Run(fmt.Sprintf(":%d", port))
 }

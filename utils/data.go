@@ -14,7 +14,8 @@ var DB *mongo.Client
 
 func Connect() {
 	var err error
-	data := config.Get().Database
+	conf, _ := config.Get()
+	data := conf.Database
 
 	uri := fmt.Sprintf("mongodb://%s:%d/%s", data.Url, data.Port, data.DbName)
 	option := options.Client().ApplyURI(uri)

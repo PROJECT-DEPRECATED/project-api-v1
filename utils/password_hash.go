@@ -6,6 +6,7 @@ import (
 )
 
 func PasswordHash(password string) *string {
-	hash := objx.HashWithKey(password, config.Get().PasswordSalt)
+	conf, _ := config.Get()
+	hash := objx.HashWithKey(password, conf.PasswordSalt)
 	return &hash
 }
