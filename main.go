@@ -28,8 +28,8 @@ func init() {
 func main() {
 	_, err := config.Get()
 	if err != nil {
-		err2 := os.WriteFile("config.json", []byte(config.GetSample), 0666)
-		if err2 != nil {
+		err := os.WriteFile("config.json", []byte(config.GetSample), 0666)
+		if err != nil {
 			log.Logger.Fatalf("failed to create 'config.json'\n%v", err)
 		}
 
