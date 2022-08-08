@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type hangangData struct {
+type HangangData struct {
 	WaterPOS struct {
 		Row []struct {
 			Date   string `json:"MSR_DATE"`
@@ -23,7 +23,7 @@ type hangangData struct {
 	} `json:"WPOSInformationTime"`
 }
 
-func getHangang(area string) (*hangangData, int) {
+func getHangang(area string) (*HangangData, int) {
 	var typeStr string
 	switch area {
 	case "tancheon":
@@ -52,7 +52,7 @@ func getHangang(area string) (*hangangData, int) {
 		return nil, res.StatusCode
 	}
 
-	var data hangangData
+	var data HangangData
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		log.Logger.Errorln(err)

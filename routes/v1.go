@@ -12,5 +12,8 @@ func APIV1(app *gin.Engine) {
 		v1.GET("/hangang/:area", api.Hangang)
 
 		v1.GET("/current", api.CurrentTime)
+
+		v1.GET("/led", api.GetLed)
+		v1.POST("/led", api.SetLed)
 	}
 }
