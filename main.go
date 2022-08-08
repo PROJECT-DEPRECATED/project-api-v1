@@ -54,5 +54,5 @@ func main() {
 	routes.APIV1(app)
 	routes.Resources(app)
 
-	app.Run(fmt.Sprintln(port))
+	app.Run(fmt.Sprintf(":%d", port))
 }
