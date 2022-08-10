@@ -27,7 +27,10 @@ func GetLed(c *gin.Context) {
 	var result LedData
 	res := coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: 0}})
 	if res.Err() != nil {
-		c.JSON(502, gin.H{"status": "502"})
+		c.JSON(500, gin.H{
+			"status": "500",
+			"reason": res.Err().Error(),
+		})
 		return
 	}
 	defer res.Decode(&result)
