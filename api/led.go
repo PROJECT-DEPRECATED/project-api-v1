@@ -34,7 +34,7 @@ func GetLed(c *gin.Context) {
 
 	c.JSON(200, gin.H{
 		"status": "200",
-		"type":   "POST",
+		"type":   "GET",
 		"red":    int(result.Red),
 		"green":  int(result.Green),
 		"blue":   int(result.Blue),
