@@ -10,6 +10,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+const (
+	ledCollName = "led_data"
+)
+
 type LedData struct {
 	Red   int `bson:"red"`
 	Green int `bson:"green"`
@@ -23,24 +27,23 @@ func GetLed(c *gin.Context) {
 		return
 	}
 
-	coll := utils.DB.Database(conf.Database.DbName).Collection("led_data")
+	coll := utils.DB.Database(conf.Database.DbName).Collection(ledCollName)
 	var result LedData
-	res := coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: 0}})
-	if res.Err() != nil {
+	err = coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: 0}}).Decode(&result)
+	if err != nil {
 		c.JSON(500, gin.H{
 			"status": "500",
-			"reason": res.Err().Error(),
+			"reason": err.Error(),
 		})
 		return
 	}
-	defer res.Decode(&result)
 
 	c.JSON(200, gin.H{
 		"status": "200",
 		"type":   "GET",
-		"red":    int(result.Red),
-		"green":  int(result.Green),
-		"blue":   int(result.Blue),
+		"red":    result.Red,
+		"green":  result.Green,
+		"blue":   result.Blue,
 	})
 }
 
@@ -91,16 +94,25 @@ func SetLed(c *gin.Context) {
 		return
 	}
 
-	coll := utils.DB.Database(conf.Database.DbName).Collection("led_data")
-	res := coll.FindOneAndUpdate(context.TODO(), bson.D{{Key: "_id", Value: 0}}, bson.D{
-		{Key: "red", Value: red},
-		{Key: "green", Value: green},
-		{Key: "blue", Value: blue},
-	})
-	if res.Err() != nil {
+	coll := utils.DB.Database(conf.Database.DbName).Collection(ledCollName)
+	_, err = coll.UpdateOne(context.TODO(), bson.D{{Key: "_id", Value: 0}}, bson.D{{Key: "$set", Value: bson.D{
+		{
+			Key:   "red",
+			Value: red,
+		},
+		{
+			Key:   "green",
+			Value: green,
+		},
+		{
+			Key:   "blue",
+			Value: blue,
+		},
+	}}})
+	if err != nil {
 		c.JSON(500, gin.H{
 			"status": "500",
-			"reson":  res.Err().Error(),
+			"reason": err.Error(),
 		})
 		return
 	}

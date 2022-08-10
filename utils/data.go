@@ -12,7 +12,7 @@ import (
 
 var DB *mongo.Client
 
-func Connect() {
+func Connect() error {
 	var err error
 	conf, _ := config.Get()
 	data := conf.Database
@@ -27,9 +27,9 @@ func Connect() {
 	DB, err = mongo.Connect(context.TODO(), option)
 	if err != nil {
 		log.Logger.Errorln("Database connection failed.")
-		log.Logger.Errorln(err)
-		return
+		return err
 	}
 
 	log.Logger.Infoln("Database connected.")
+	return nil
 }
