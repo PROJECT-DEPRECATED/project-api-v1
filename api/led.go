@@ -11,9 +11,9 @@ import (
 )
 
 type LedData struct {
-	Red   int `bson:"red"`
-	Green int `bson:"green"`
-	Blue  int `bson:"blue"`
+	Red   int32 `bson:"red"`
+	Green int32 `bson:"green"`
+	Blue  int32 `bson:"blue"`
 }
 
 func GetLed(c *gin.Context) {
