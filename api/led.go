@@ -98,7 +98,10 @@ func SetLed(c *gin.Context) {
 		{Key: "blue", Value: blue},
 	})
 	if res.Err() != nil {
-		c.JSON(502, gin.H{"status": "502"})
+		c.JSON(500, gin.H{
+			"status": "500",
+			"reson":  res.Err().Error(),
+		})
 		return
 	}
 
