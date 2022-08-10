@@ -18,9 +18,13 @@ type LedData struct {
 
 func GetLed(c *gin.Context) {
 	conf, _ := config.Get()
+	err := utils.AuthUtils(c)
+	if err != nil {
+		return
+	}
 
 	coll := utils.DB.Database(conf.Database.DbName).Collection("led_data")
-	res := coll.FindOne(context.TODO(), bson.D{{}})
+	res := coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: 0}})
 	if res.Err() != nil {
 		c.JSON(502, gin.H{"status": "502"})
 		return
@@ -29,6 +33,11 @@ func GetLed(c *gin.Context) {
 
 func SetLed(c *gin.Context) {
 	conf, _ := config.Get()
+	err := utils.AuthUtils(c)
+	if err != nil {
+		return
+	}
+
 	red, err := strconv.ParseInt(c.PostForm("red"), 10, 0)
 	if err != nil {
 		c.JSON(500, gin.H{
@@ -39,7 +48,6 @@ func SetLed(c *gin.Context) {
 
 		return
 	}
-
 	green, err := strconv.ParseInt(c.PostForm("green"), 10, 0)
 	if err != nil {
 		c.JSON(500, gin.H{
@@ -50,7 +58,6 @@ func SetLed(c *gin.Context) {
 
 		return
 	}
-
 	blue, err := strconv.ParseInt(c.PostForm("blue"), 10, 0)
 	if err != nil {
 		c.JSON(500, gin.H{
