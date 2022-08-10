@@ -93,11 +93,11 @@ func SetLed(c *gin.Context) {
 
 	coll := utils.DB.Database(conf.Database.DbName).Collection("led_data")
 	filter := bson.D{{Key: "_id", Value: 0}}
-	docs := bson.M{"$set": bson.D{
+	docs := bson.D{{Key: "$set", Value: bson.D{
 		{Key: "red", Value: red},
 		{Key: "green", Value: green},
 		{Key: "blue", Value: blue},
-	}}
+	}}}
 	res := coll.FindOneAndUpdate(context.TODO(), filter, docs)
 	if res.Err() != nil {
 		c.JSON(500, gin.H{
