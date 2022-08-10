@@ -24,11 +24,21 @@ func GetLed(c *gin.Context) {
 	}
 
 	coll := utils.DB.Database(conf.Database.DbName).Collection("led_data")
+	var result LedData
 	res := coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: 0}})
 	if res.Err() != nil {
 		c.JSON(502, gin.H{"status": "502"})
 		return
 	}
+	defer res.Decode(&result)
+
+	c.JSON(200, gin.H{
+		"status": "200",
+		"type":   "POST",
+		"red":    int(result.Red),
+		"green":  int(result.Green),
+		"blue":   int(result.Blue),
+	})
 }
 
 func SetLed(c *gin.Context) {
