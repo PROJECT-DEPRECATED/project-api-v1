@@ -1,4 +1,5 @@
 {
+    "token": "SPECTIFY_TOKEN",
     "password_salt": "PASSWORD_SALT",
     "database": {
         "url": "MONGO_DATABASE_URL",

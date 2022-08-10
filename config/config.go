@@ -2,12 +2,13 @@ package config
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"os"
 )
 
 var (
 	filename  = "./config.json"
 	GetSample = `{
+		"token": "SPECTIFY_TOKEN",
 		"password_salt": "PASSWORD_SALT",
 		"database": {
 			"url": "MONGO_DATABASE_URL",
@@ -20,7 +21,7 @@ var (
 )
 
 type conf struct {
-	URL          string `json:"frontend_url"`
+	Token        string `json:"token"`
 	PasswordSalt string `json:"password_salt"`
 	Database     struct {
 		Url      string `json:"url"`
@@ -32,7 +33,7 @@ type conf struct {
 }
 
 func Get() (*conf, error) {
-	config, err := ioutil.ReadFile(filename)
+	config, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
