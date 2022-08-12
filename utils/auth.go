@@ -9,7 +9,7 @@ import (
 
 func isAuth(token string) bool {
 	conf, _ := config.Get()
-	return conf.Token == token
+	return PasswordHash(conf.Token) == PasswordHash(token)
 }
 
 func AuthUtils(c *gin.Context) error {
