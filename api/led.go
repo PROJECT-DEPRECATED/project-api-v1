@@ -20,6 +20,21 @@ type LedData struct {
 	Blue  int `bson:"blue"`
 }
 
+func ledBuilder(form string, c *gin.Context) (int64, error) {
+	led, err := strconv.ParseInt(c.PostForm(form), 10, 0)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"status":       "500",
+			"reason":       err.Error(),
+			"insert_value": c.PostForm(form),
+		})
+
+		return 0, err
+	}
+
+	return led, nil
+}
+
 func GetLed(c *gin.Context) {
 	conf, _ := config.Get()
 	err := utils.AuthUtils(c)
@@ -35,6 +50,7 @@ func GetLed(c *gin.Context) {
 			"status": "500",
 			"reason": err.Error(),
 		})
+
 		return
 	}
 
@@ -54,34 +70,16 @@ func SetLed(c *gin.Context) {
 		return
 	}
 
-	red, err := strconv.ParseInt(c.PostForm("red"), 10, 0)
+	red, err := ledBuilder("red", c)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"status":       "500",
-			"reason":       err.Error(),
-			"insert_value": c.PostForm("red"),
-		})
-
 		return
 	}
-	green, err := strconv.ParseInt(c.PostForm("green"), 10, 0)
+	green, err := ledBuilder("green", c)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"status":       "500",
-			"reason":       err.Error(),
-			"insert_value": c.PostForm("green"),
-		})
-
 		return
 	}
-	blue, err := strconv.ParseInt(c.PostForm("blue"), 10, 0)
+	blue, err := ledBuilder("blue", c)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"status":       "500",
-			"reason":       err.Error(),
-			"insert_value": c.PostForm("blue"),
-		})
-
 		return
 	}
 
@@ -96,24 +94,16 @@ func SetLed(c *gin.Context) {
 
 	coll := utils.DB.Database(conf.Database.DbName).Collection(ledCollName)
 	_, err = coll.UpdateOne(context.TODO(), bson.D{{Key: "_id", Value: 0}}, bson.D{{Key: "$set", Value: bson.D{
-		{
-			Key:   "red",
-			Value: red,
-		},
-		{
-			Key:   "green",
-			Value: green,
-		},
-		{
-			Key:   "blue",
-			Value: blue,
-		},
+		{Key: "red", Value: red},
+		{Key: "green", Value: green},
+		{Key: "blue", Value: blue},
 	}}})
 	if err != nil {
 		c.JSON(500, gin.H{
 			"status": "500",
 			"reason": err.Error(),
 		})
+
 		return
 	}
 
