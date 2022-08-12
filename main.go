@@ -40,7 +40,10 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	utils.Connect()
+	err = utils.Connect()
+	if err != nil {
+		log.Logger.Errorln(err)
+	}
 
 	app := gin.Default()
 	cor := cors.DefaultConfig()
