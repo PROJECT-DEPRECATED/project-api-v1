@@ -18,6 +18,10 @@ ADD ./go.mod /api/src/
 # add config
 ADD ./config.json /api/
 
+# add git
+RUN apt update
+RUN apt install git -y
+
 # build
 WORKDIR /api/src
 RUN go mod tidy
