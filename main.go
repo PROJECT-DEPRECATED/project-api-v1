@@ -7,9 +7,9 @@ import (
 
 	"github.com/devproje/project-website/config"
 	"github.com/devproje/project-website/log"
+	"github.com/devproje/project-website/middleware"
 	"github.com/devproje/project-website/routes"
 	"github.com/devproje/project-website/utils"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/thinkerou/favicon"
 )
@@ -46,12 +46,9 @@ func main() {
 	}
 
 	app := gin.Default()
-	cor := cors.DefaultConfig()
 
 	app.Use(favicon.New("./resources/favicon.ico"))
-
-	cor.AllowOrigins = []string{"*"}
-	app.Use(cors.New(cor))
+	app.Use(middleware.Cors)
 
 	routes.Index(app)
 	routes.APIV1(app)

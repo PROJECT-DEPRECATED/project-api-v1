@@ -3,7 +3,6 @@ module github.com/devproje/project-website
 go 1.19
 
 require (
-	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.7.7
 	github.com/sirupsen/logrus v1.8.1
 	github.com/thinkerou/favicon v0.1.0
