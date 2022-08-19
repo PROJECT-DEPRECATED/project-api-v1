@@ -5,27 +5,10 @@ ARG DEBUG=false
 
 WORKDIR /api
 
-# add sources
-ADD ./.git /api/src/
-ADD ./api /api/src/
-ADD ./config /api/src/
-ADD ./log /api/src/
-ADD ./middleware /api/src/
-ADD ./resources /api/
-ADD ./routes /api/src/
-ADD ./utils /api/src/
-ADD ./go.mod /api/src/
-
-# add config
 ADD ./config.json /api/
+ADD ./resources /api/
 
-# build
-WORKDIR /api/src
-RUN go mod tidy
-RUN go build -o project-api main.go
-RUN cp /api/src/project-api /api
+# add execution file
+ADD ./project-api /api/
 
-WORKDIR /api
-RUN rm -rf /api/src
-
-ENTRYPOINT [ "/api/project-api" ]
+ENTRYPOINT [ "/api/project-api -port=${SERVICE_PORT} -debug=${DEBUG}" ]

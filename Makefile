@@ -6,6 +6,8 @@ $(target): $(src)
 	go build -o $(target) $(src)
 
 docker:
+	go mod tidy	
+	go build -o $(target) $(src)
 	docker build --no-cache --tag project-api:latest .
 
 clean:
