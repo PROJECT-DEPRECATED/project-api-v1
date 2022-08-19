@@ -8,4 +8,4 @@ ADD ./resources /api/
 # add execution file
 ADD ./project-api /api/
 
-ENTRYPOINT [ "/api/project-api" ]
+ENTRYPOINT [ "./project-api" ]
