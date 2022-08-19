@@ -1,4 +1,4 @@
-FROM 1.19.0-alpine3.15
+FROM golang:1.19.0-alpine3.15
 
 ARG SERVICE_PORT=3000
 ARG DEBUG=false
