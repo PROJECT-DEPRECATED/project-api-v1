@@ -1,0 +1,11 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: 'project-api'
+    image: 'project-api'
+    privileged: true
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./resources:/api/resources
