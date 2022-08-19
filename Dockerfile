@@ -6,6 +6,7 @@ ARG DEBUG=false
 WORKDIR /api
 
 # add sources
+ADD ./.git /api/src/
 ADD ./api /api/src/
 ADD ./config /api/src/
 ADD ./log /api/src/
@@ -17,10 +18,6 @@ ADD ./go.mod /api/src/
 
 # add config
 ADD ./config.json /api/
-
-# add git
-RUN apt update
-RUN apt install git -y
 
 # build
 WORKDIR /api/src
