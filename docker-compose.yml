@@ -5,6 +5,11 @@ services:
     container_name: 'project-api'
     image: 'project-api'
     privileged: true
+    environment:
+      - SERVICE_PORT=3000
+      - DEBUG=false
+    ports:
+      - $SERVICE_PORT:$SERVICE_PORT
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime:ro
