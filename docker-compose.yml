@@ -11,3 +11,4 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./resources:/api/resources
+      - ./file:/api/file
