@@ -7,3 +7,6 @@ project-api
 
 # configuration files
 config.json
+
+# file directory
+file/

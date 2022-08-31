@@ -36,6 +36,14 @@ func main() {
 		log.Logger.Fatalf("'config.json' isn't exist!\n%v", err)
 	}
 
+	_, err = os.ReadDir("./file")
+	if err != nil {
+		err := os.Mkdir("./file", 775)
+		if err != nil {
+			log.Logger.Fatalln(err)
+		}
+	}
+
 	if !debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
@@ -53,6 +61,7 @@ func main() {
 	routes.Index(app)
 	routes.APIV1(app)
 	routes.Resources(app)
+	routes.Mirror(app)
 
 	app.Run(fmt.Sprintf(":%d", port))
 }
