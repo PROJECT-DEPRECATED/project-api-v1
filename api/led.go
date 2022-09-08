@@ -55,7 +55,7 @@ func GetLed(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"status": "200",
+		"status": 200,
 		"type":   "GET",
 		"red":    result.Red,
 		"green":  result.Green,
@@ -100,7 +100,7 @@ func SetLed(c *gin.Context) {
 	}}})
 	if err != nil {
 		c.JSON(500, gin.H{
-			"status": "500",
+			"status": 500,
 			"reason": err.Error(),
 		})
 
@@ -108,7 +108,7 @@ func SetLed(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"status": "200",
+		"status": 200,
 		"type":   "POST",
 		"red":    int(red),
 		"green":  int(green),

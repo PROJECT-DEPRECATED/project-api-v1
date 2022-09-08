@@ -6,6 +6,6 @@ import (
 
 func Index(app *gin.Engine) {
 	app.GET("/", func(ctx *gin.Context) {
-		ctx.Redirect(301, "https://projecttl.net/api")
+		ctx.Redirect(301, "https://github.com/devproje/project-api")
 	})
 }
