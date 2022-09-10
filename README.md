@@ -26,7 +26,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>ph</td>
         <td>String</td>
         <td>
@@ -34,15 +33,13 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>respond_time</td>
         <td>String</td>
         <td>
             Showing get time
         </td>
     </tr>
-    <tr>
-        <tr>
+    <tr> 
         <td>status</td>
         <td>String</td>
         <td>
@@ -50,7 +47,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>temp</td>
         <td>String</td>
         <td>
@@ -58,7 +54,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>time</td>
         <td>String</td>
         <td>
@@ -108,7 +103,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>ph</td>
         <td>String</td>
         <td>
@@ -116,7 +110,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>respond_time</td>
         <td>String</td>
         <td>
@@ -124,7 +117,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>status</td>
         <td>String</td>
         <td>
@@ -132,7 +124,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>temp</td>
         <td>String</td>
         <td>
@@ -140,7 +131,6 @@ Success 200
         </td>
     </tr>
     <tr>
-        <tr>
         <td>time</td>
         <td>String</td>
         <td>
@@ -191,7 +181,6 @@ Success 200
         <td></td>
     </tr>
     <tr>
-        <tr>
         <td>blue</td>
         <td>Number</td>
         <td></td>
@@ -230,7 +219,6 @@ Forms
         <td>0~255</td>
     </tr>
     <tr>
-        <tr>
         <td>blue</td>
         <td>Number</td>
         <td>0~255</td>
@@ -263,7 +251,6 @@ Success 200
         <td></td>
     </tr>
     <tr>
-        <tr>
         <td>blue</td>
         <td>Number</td>
         <td></td>
