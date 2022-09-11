@@ -32,7 +32,7 @@ type conf struct {
 	PasswordSalt string `json:"password_salt"`
 	HangangAPI   struct {
 		Url string `json:"url"`
-	}
+	} `json:"hangang_api"`
 	MojangAPI struct {
 		API     string `json:"api_url"`
 		Session string `json:"session_url"`
