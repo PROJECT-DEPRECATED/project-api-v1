@@ -290,7 +290,7 @@ Success 200
     </tr>
 </table>
 
-### **/v1/mcprofile/:area [GET](https://api.projecttl.net/v1/mcprofile/Project_TL)**
+### **/v1/mcprofile/:username [GET](https://api.projecttl.net/v1/mcprofile/Project_TL)**
 Parameter
 <table border="1">
     <th>Field</th>
