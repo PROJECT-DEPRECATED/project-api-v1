@@ -1,6 +1,12 @@
 # Project API
 REST API backend service
 
+## Feature
+- Minecraft Profile
+- Hanriver's info
+- Home LED Light Controller
+- Check current time
+
 ## Docs
 <hr/>
 
