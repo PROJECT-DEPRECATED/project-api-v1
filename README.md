@@ -10,7 +10,7 @@ REST API backend service
 ## Docs
 <hr/>
 
-### **/v1/hangang [GET]**
+### **/v1/hangang [GET](https://api.projecttl.net/v1/hangang)**
 
 Success 200
 <table border="1">
@@ -68,7 +68,7 @@ Success 200
     </tr>
 </table>
 
-### **/v1/hangang/:area [GET]**
+### **/v1/hangang/:area [GET](https://api.projecttl.net/v1/hangang/tancheon)**
 Parameter
 <table border="1">
     <th>Field</th>
@@ -290,7 +290,7 @@ Success 200
     </tr>
 </table>
 
-### **/v1/hangang/:area [GET]**
+### **/v1/mcprofile/:area [GET](https://api.projecttl.net/v1/mcprofile/Project_TL)**
 Parameter
 <table border="1">
     <th>Field</th>
