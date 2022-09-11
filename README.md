@@ -345,34 +345,6 @@ Success 200
     </tr>
 </table>
 
-Not Found 404
-<table border="1">
-    <th>Field</th>
-    <th>Type</th>
-    <th>Description</th>
-    <tr>
-        <td>status</td>
-        <td>Number</td>
-        <td>
-            Http Status
-        </td>
-    </tr>
-    <tr>
-        <td>respond_time</td>
-        <td>String</td>
-        <td>
-            Showing respond time
-        </td>
-    </tr>
-    <tr>
-        <td>error</td>
-        <td>String</td>
-        <td>
-            Error name
-        </td>
-    </tr>
-</table>
-
 No Content 204, Bad Request 400, Not Found 404
 <table border="1">
     <th>Field</th>
