@@ -1,13 +1,13 @@
 package api
 
 import (
-	"encoding/json"
-	"io"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
-	"github.com/devproje/project-website/log"
+	"github.com/devproje/project-website/config"
+	"github.com/devproje/project-website/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,6 +24,7 @@ type HangangData struct {
 }
 
 func getHangang(area string) (*HangangData, int) {
+	conf, _ := config.Get()
 	var typeStr string
 	switch area {
 	case "tancheon":
@@ -36,30 +37,12 @@ func getHangang(area string) (*HangangData, int) {
 		typeStr = "4"
 	case "noryangjin":
 		typeStr = "5"
+	default:
+		return nil, 404
 	}
 
-	var url = "http://openapi.seoul.go.kr:8088/sample/json/WPOSInformationTime/" + typeStr + "/" + typeStr
-	res, err := http.Get(url)
-	if err != nil {
-		log.Logger.Errorln(err)
-		return nil, res.StatusCode
-	}
-	defer res.Body.Close()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		log.Logger.Errorln(err)
-		return nil, res.StatusCode
-	}
-
-	var data HangangData
-	err = json.Unmarshal(body, &data)
-	if err != nil {
-		log.Logger.Errorln(err)
-		return nil, res.StatusCode
-	}
-
-	return &data, res.StatusCode
+	var url = fmt.Sprintf("%s/sample/json/WPOSInformationTime/%s/%s", conf.HangangAPI.Url, typeStr, typeStr)
+	return utils.GetAPI[HangangData](url)
 }
 
 func Hangang(context *gin.Context) {
@@ -70,29 +53,28 @@ func Hangang(context *gin.Context) {
 	before := time.Now()
 	hangang, status := getHangang(area)
 	row := hangang.WaterPOS.Row[0]
+	respondTime := time.Since(before)
 
 	parse, err := time.Parse("20060102", row.Date)
 	if err != nil {
-		log.Logger.Errorln(err)
 		return
 	}
-	respondTime := time.Since(before)
-
-	if status == 404 {
+	switch status {
+	case 404:
 		context.JSON(status, gin.H{
 			"status":       status,
 			"respond_time": strconv.FormatInt(respondTime.Milliseconds(), 10) + "ms",
 			"error":        http.StatusText(status),
 		})
+	case 200:
+		context.JSON(status, gin.H{
+			"status":       status,
+			"respond_time": strconv.FormatInt(respondTime.Milliseconds(), 10) + "ms",
+			"area":         row.SiteID,
+			"date":         parse.Format("2006-01-02"),
+			"time":         row.Time,
+			"temp":         row.Temp,
+			"ph":           row.PH,
+		})
 	}
-
-	context.JSON(200, gin.H{
-		"status":       status,
-		"respond_time": strconv.FormatInt(respondTime.Milliseconds(), 10) + "ms",
-		"area":         row.SiteID,
-		"date":         parse.Format("2006-01-02"),
-		"time":         row.Time,
-		"temp":         row.Temp,
-		"ph":           row.PH,
-	})
 }

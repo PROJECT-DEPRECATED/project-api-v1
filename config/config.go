@@ -10,6 +10,13 @@ var (
 	GetSample = `{
 		"token": "SPECTIFY_TOKEN",
 		"password_salt": "PASSWORD_SALT",
+		"hangang_api": {
+			"url": "HANGANG_DATA_URL"
+		},
+		"mojang_api": {
+			"api_url": "MOJANG_API_URL",
+			"session_url": "SESSION_URL"
+		},
 		"database": {
 			"url": "MONGO_DATABASE_URL",
 			"port": 27017,
@@ -23,7 +30,14 @@ var (
 type conf struct {
 	Token        string `json:"token"`
 	PasswordSalt string `json:"password_salt"`
-	Database     struct {
+	HangangAPI   struct {
+		Url string `json:"url"`
+	}
+	MojangAPI struct {
+		API     string `json:"api_url"`
+		Session string `json:"session_url"`
+	} `json:"mojang_api"`
+	Database struct {
 		Url      string `json:"url"`
 		Port     int    `json:"port"`
 		DbName   string `json:"db_name"`

@@ -36,12 +36,12 @@ Success 200
         <td>respond_time</td>
         <td>String</td>
         <td>
-            Showing get time
+            Showing respond time
         </td>
     </tr>
     <tr> 
         <td>status</td>
-        <td>String</td>
+        <td>Number</td>
         <td>
             HTTP Status
         </td>
@@ -61,7 +61,6 @@ Success 200
         </td>
     </tr>
 </table>
-<hr/>
 
 ### **/v1/hangang/:area [GET]**
 Parameter
@@ -113,12 +112,12 @@ Success 200
         <td>respond_time</td>
         <td>String</td>
         <td>
-            Showing get time
+            Showing respond time
         </td>
     </tr>
     <tr>
         <td>status</td>
-        <td>String</td>
+        <td>Number</td>
         <td>
             HTTP Status
         </td>
@@ -135,6 +134,34 @@ Success 200
         <td>String</td>
         <td>
             Showing measure time
+        </td>
+    </tr>
+</table>
+
+Not Found 404
+<table border="1">
+    <th>Field</th>
+    <th>Type</th>
+    <th>Description</th>
+    <tr>
+        <td>status</td>
+        <td>Number</td>
+        <td>
+            Http Status
+        </td>
+    </tr>
+    <tr>
+        <td>respond_time</td>
+        <td>String</td>
+        <td>
+            Showing respond time
+        </td>
+    </tr>
+    <tr>
+        <td>error</td>
+        <td>String</td>
+        <td>
+            Error name
         </td>
     </tr>
 </table>
@@ -254,5 +281,116 @@ Success 200
         <td>blue</td>
         <td>Number</td>
         <td></td>
+    </tr>
+</table>
+
+### **/v1/hangang/:area [GET]**
+Parameter
+<table border="1">
+    <th>Field</th>
+    <th>Type</th>
+    <th>Description</th>
+    <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>Type minecraft player's nickname</td>
+    </tr>
+</table>
+
+Success 200
+<table border="1">
+    <th>Field</th>
+    <th>Type</th>
+    <th>Description</th>
+    <tr>
+        <td>unique_id</td>
+        <td>String</td>
+        <td>
+            Player's uuid
+        </td>
+    </tr>
+    <tr>
+        <td>username</td>
+        <td>String</td>
+        <td>
+            Player name
+        </td>
+    </tr>
+    <tr>
+        <td>skin_url</td>
+        <td>String</td>
+        <td>
+            Player skin url
+        </td>
+    </tr>
+    <tr>
+        <td>respond_time</td>
+        <td>String</td>
+        <td>
+            Showing respond time
+        </td>
+    </tr>
+    <tr>
+        <td>status</td>
+        <td>Number</td>
+        <td>
+            HTTP Status
+        </td>
+    </tr>
+</table>
+
+Not Found 404
+<table border="1">
+    <th>Field</th>
+    <th>Type</th>
+    <th>Description</th>
+    <tr>
+        <td>status</td>
+        <td>Number</td>
+        <td>
+            Http Status
+        </td>
+    </tr>
+    <tr>
+        <td>respond_time</td>
+        <td>String</td>
+        <td>
+            Showing respond time
+        </td>
+    </tr>
+    <tr>
+        <td>error</td>
+        <td>String</td>
+        <td>
+            Error name
+        </td>
+    </tr>
+</table>
+
+No Content 204, Bad Request 400, Not Found 404
+<table border="1">
+    <th>Field</th>
+    <th>Type</th>
+    <th>Description</th>
+    <tr>
+        <td>status</td>
+        <td>Number</td>
+        <td>
+            Http Status
+        </td>
+    </tr>
+    <tr>
+        <td>respond_time</td>
+        <td>String</td>
+        <td>
+            Showing respond time
+        </td>
+    </tr>
+    <tr>
+        <td>error</td>
+        <td>String</td>
+        <td>
+            Error name
+        </td>
     </tr>
 </table>

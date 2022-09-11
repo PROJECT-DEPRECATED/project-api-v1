@@ -1,6 +1,13 @@
 {
     "token": "SPECTIFY_TOKEN",
     "password_salt": "PASSWORD_SALT",
+    "hangang_api": {
+		"url": "HANGANG_DATA_URL"
+	},
+    "mojang_api": {
+        "api_url": "MOJANG_API_URL",
+        "session_url": "SESSION_URL"
+    },
     "database": {
         "url": "MONGO_DATABASE_URL",
         "port": 27017,
