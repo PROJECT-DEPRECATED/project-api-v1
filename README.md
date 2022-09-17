@@ -8,7 +8,6 @@ REST API backend service
 - Check current time
 
 ## Docs
-<hr/>
 
 ### **/v1/hangang [GET](https://api.projecttl.net/v1/hangang)**
 
@@ -171,7 +170,6 @@ Not Found 404
         </td>
     </tr>
 </table>
-<hr/>
 
 ### **/v1/led [GET]**
 Headers
@@ -219,7 +217,6 @@ Success 200
         <td></td>
     </tr>
 </table>
-<hr/>
 
 ### **/v1/led [POST]**
 Headers
