@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	"github.com/devproje/project-website/config"
+	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -25,14 +26,14 @@ func (a *Account) isExist() bool {
 	return err == nil
 }
 
-func (a *Account) Create() error {
+func (a *Account) New() error {
 	if a.isExist() {
 		return errors.New("email already exist")
 	}
 	conf, _ := config.Get()
 	coll := DB.Database(conf.Database.DbName).Collection("account")
 	_, err := coll.InsertOne(context.TODO(), bson.D{
-		{Key: "_id", Value: a.UniqueId},
+		{Key: "_id", Value: uuid.NewString()},
 		{Key: "name", Value: a.Name},
 		{Key: "email", Value: a.Email},
 		{Key: "password", Value: a.Password},
