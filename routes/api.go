@@ -14,5 +14,10 @@ func APIV1(app *gin.Engine) {
 		v1.GET("/mcprofile/:username", api.MCProfile)
 		v1.GET("/led", api.GetLed)
 		v1.POST("/led", api.SetLed)
+		// acc := v1.Group("/account")
+		// {
+		// 	acc.GET("/search/:username")
+		// 	acc.POST("/register")
+		// }
 	}
 }

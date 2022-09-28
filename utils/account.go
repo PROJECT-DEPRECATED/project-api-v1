@@ -16,19 +16,18 @@ type Account struct {
 }
 
 func (a *Account) isExist() bool {
+	var data Account
+
 	conf, _ := config.Get()
-	data := Account{}
 	coll := DB.Database(conf.Database.DbName).Collection("account")
-	err := coll.FindOne(context.TODO(), bson.D{
-		{Key: "email", Value: a.Email},
-	}).Decode(&data)
+	err := coll.FindOne(context.TODO(), bson.D{{Key: "email", Value: a.Email}}).Decode(&data)
 
 	return err == nil
 }
 
-func (a *Account) Add() error {
+func (a *Account) Create() error {
 	if a.isExist() {
-		return errors.New("this email is already exist")
+		return errors.New("email already exist")
 	}
 	conf, _ := config.Get()
 	coll := DB.Database(conf.Database.DbName).Collection("account")
@@ -47,16 +46,27 @@ func (a *Account) Add() error {
 
 func (a *Account) Drop() error {
 	if !a.isExist() {
-		return errors.New("this email isn't exist")
+		return errors.New("email not exist")
 	}
 	conf, _ := config.Get()
 	coll := DB.Database(conf.Database.DbName).Collection("account")
-	_, err := coll.DeleteOne(context.TODO(), bson.D{
-		{Key: "email", Value: a.Email},
-	})
+	_, err := coll.DeleteOne(context.TODO(), bson.D{{Key: "email", Value: a.Email}})
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (a *Account) Find() (*Account, error) {
+	var data Account
+
+	conf, _ := config.Get()
+	coll := DB.Database(conf.Database.DbName).Collection("account")
+	err := coll.FindOne(context.TODO(), bson.D{{Key: "name", Value: a.Name}}).Decode(&data)
+	if err != nil {
+		return nil, err
+	}
+
+	return &data, nil
 }
