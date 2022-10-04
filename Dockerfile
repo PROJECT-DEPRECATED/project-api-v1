@@ -1,15 +1,21 @@
-FROM golang:1.19.0-alpine3.15
+FROM golang:1.19.1-alpine3.16
 
-WORKDIR /api
+WORKDIR /api/src
+
 COPY . .
-
-RUN rm Dockerfile docker-compose.yml
 
 RUN apk update
 RUN apk add git
 RUN apk add ca-certificates
 
 RUN go mod tidy
-RUN go build -o /api/project-api /api/main.go
+RUN go build -o /api/project-api /api/src/main.go
+
+RUN cp ./project-api ../
+RUN cp ./config.json ../
+
+WORKDIR /api
+
+RUN rm -rf ./src
 
 ENTRYPOINT [ "/api/project-api" ]
