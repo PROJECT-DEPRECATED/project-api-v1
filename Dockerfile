@@ -11,7 +11,6 @@ RUN apk add ca-certificates
 RUN go mod tidy
 RUN go build -o /api/project-api /api/src/main.go
 
-RUN cp ./project-api ../
 RUN cp ./config.json ../
 
 WORKDIR /api
