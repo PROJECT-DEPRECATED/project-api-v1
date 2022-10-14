@@ -17,7 +17,7 @@ func Connect() error {
 	conf, _ := config.Get()
 	data := conf.Database
 
-	uri := fmt.Sprintf("mongodb://%s:%d/%s", data.Url, data.Port, data.DbName)
+	uri := fmt.Sprintf("mongodb://%s:%d/%s", data.URL, data.Port, data.DbName)
 	option := options.Client().ApplyURI(uri)
 	option.SetAuth(options.Credential{
 		AuthMechanism: "SCRAM-SHA-256",

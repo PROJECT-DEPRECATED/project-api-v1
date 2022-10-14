@@ -39,7 +39,7 @@ type MojangAPI struct {
 
 func getUniqueId(username string) (*uuidExtractor, int) {
 	conf, _ := config.Get()
-	url := fmt.Sprintf("%s/users/profiles/minecraft/%s", conf.MojangAPI.API, username)
+	url := fmt.Sprintf("%s/users/profiles/minecraft/%s", conf.MojangAPI.URL, username)
 
 	return utils.GetAPI[uuidExtractor](url)
 }

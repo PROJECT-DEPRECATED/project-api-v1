@@ -1,5 +1,6 @@
-src = main.go
-target = project-api
+src=main.go
+target=project-api
+TAG=default
 
 $(target): $(src)
 	go mod tidy	
@@ -7,6 +8,9 @@ $(target): $(src)
 
 docker:
 	docker-compose build --no-cache
+
+publish:
+    ./publish $(TAG)
 
 clean:
 	rm $(target)

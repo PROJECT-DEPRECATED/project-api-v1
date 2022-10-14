@@ -41,7 +41,7 @@ func getHangang(area string) (*HangangData, int) {
 		return nil, 404
 	}
 
-	var url = fmt.Sprintf("%s/sample/json/WPOSInformationTime/%s/%s", conf.HangangAPI.Url, typeStr, typeStr)
+	var url = fmt.Sprintf("%s/sample/json/WPOSInformationTime/%s/%s", conf.HangangAPI.URL, typeStr, typeStr)
 	return utils.GetAPI[HangangData](url)
 }
 
