@@ -10,7 +10,7 @@ docker:
 	docker-compose build --no-cache
 
 publish:
-    ./publish $(TAG)
+    ./publish.sh $(TAG)
 
 clean:
 	rm $(target)
