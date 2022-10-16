@@ -66,7 +66,7 @@ func getMCProfile(username string) (*MojangAPI, int) {
 		return nil, status
 	}
 
-	url := fmt.Sprintf("%s/session/minecraft/profile/%s", conf.MojangAPI.Session, uniqueId.UniqueId)
+	url := fmt.Sprintf("%s/session/minecraft/profile/%s", conf.MojangAPI.SessionURL, uniqueId.UniqueId)
 
 	e, status := utils.GetAPI[EncodedMojangAPI](url)
 	data, err := decodeProperty(*e)
