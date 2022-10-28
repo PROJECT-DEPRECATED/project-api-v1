@@ -77,6 +77,14 @@ func getMCProfile(username string) (*MojangAPI, int) {
 	return data, status
 }
 
+func fullsizeUUID(uuid string) string {
+	var dash = func(str string, index int) string {
+		return fmt.Sprintf("%s-%s", str[:index], str[index:])
+	}
+	i := 8
+	return dash(dash(dash(dash(uuid, i), i+5), i+5*2), i+5*3)
+}
+
 func MCProfile(context *gin.Context) {
 	username := context.Param("username")
 	before := time.Now()
@@ -107,7 +115,7 @@ func MCProfile(context *gin.Context) {
 			"status":       status,
 			"respond_time": strconv.FormatInt(respondTime.Milliseconds(), 10) + "ms",
 			"username":     mojang.Username,
-			"unique_id":    mojang.UniqueId,
+			"unique_id":    fullsizeUUID(mojang.UniqueId),
 			"skin_url":     mojang.Textures.Skin.Url,
 		})
 	}
