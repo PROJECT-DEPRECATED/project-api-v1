@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/devproje/plog/log"
 	"github.com/devproje/project-website/config"
-	"github.com/devproje/project-website/log"
 	"github.com/devproje/project-website/middleware"
 	"github.com/devproje/project-website/routes"
 	"github.com/devproje/project-website/utils"
@@ -30,17 +30,17 @@ func main() {
 	if err != nil {
 		err := os.WriteFile("config.json", []byte(config.GetSample), 0666)
 		if err != nil {
-			log.Logger.Fatalf("failed to create 'config.json'\n%v", err)
+			log.Fatalf("failed to create 'config.json'\n%v", err)
 		}
 
-		log.Logger.Fatalf("'config.json' isn't exist!\n%v", err)
+		log.Fatalf("'config.json' isn't exist!\n%v", err)
 	}
 
 	_, err = os.ReadDir("./file")
 	if err != nil {
 		err := os.Mkdir("./file", 775)
 		if err != nil {
-			log.Logger.Fatalln(err)
+			log.Fatalln(err)
 		}
 	}
 
@@ -50,7 +50,7 @@ func main() {
 
 	err = utils.Connect()
 	if err != nil {
-		log.Logger.Errorln(err)
+		log.Errorln(err)
 	}
 
 	app := gin.Default()

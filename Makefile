@@ -1,16 +1,25 @@
-src=main.go
-target=project-api
+SRC=main.go
+TARGET=project-api
 TAG=default
 
-$(target): $(src)
+$(TARGET): $(SRC)
 	go mod tidy	
-	go build -o $(target) $(src)
+	go build -o $(TARGET) $(SRC)
 
 docker:
 	docker-compose build --no-cache
 
+docker-run:
+	docker-compose up -d
+
+docker-stop:
+	docker-compose down
+
 publish:
-	./publish.sh $(TAG)
+	./scripts/publish.sh $(TAG)
+
+run:
+	go run $(SRC)
 
 clean:
-	rm $(target)
+	rm $(TARGET)

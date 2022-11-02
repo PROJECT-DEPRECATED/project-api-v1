@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/devproje/plog/log"
 	"github.com/devproje/project-website/config"
-	"github.com/devproje/project-website/log"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -26,10 +26,10 @@ func Connect() error {
 	})
 	DB, err = mongo.Connect(context.TODO(), option)
 	if err != nil {
-		log.Logger.Errorln("Database connection failed.")
+		log.Errorln("Database connection failed.")
 		return err
 	}
 
-	log.Logger.Infoln("Database connected.")
+	log.Infoln("Database connected.")
 	return nil
 }
