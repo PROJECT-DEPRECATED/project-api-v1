@@ -3,9 +3,9 @@ module github.com/devproje/project-website
 go 1.19
 
 require (
+	github.com/devproje/plog v1.1.1
 	github.com/gin-gonic/gin v1.8.1
 	github.com/google/uuid v1.3.0
-	github.com/devproje/plog v1.1.1
 	github.com/thinkerou/favicon v0.1.0
 	go.mongodb.org/mongo-driver v1.10.4
 )
