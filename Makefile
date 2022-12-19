@@ -3,7 +3,6 @@ TARGET=project-api
 TAG=default
 
 $(TARGET): $(SRC)
-	go mod tidy	
 	go build -o $(TARGET) $(SRC)
 
 docker:
