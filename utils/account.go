@@ -9,6 +9,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 )
 
+type EditMode string
+
+const (
+	Name     EditMode = "name"
+	Password EditMode = "password"
+	IsOwner  EditMode = "is_owner"
+)
+
 type Account struct {
 	UniqueId string `bson:"_id"`
 	Name     string `bson:"name"`
@@ -59,7 +67,7 @@ func (a *Account) DropAccount() error {
 func (a *Account) GetAccount() (*Account, error) {
 	var data Account
 	coll := DB.Collection("account")
-	err := coll.FindOne(context.TODO(), bson.D{{Key: "name", Value: a.Name}}).Decode(&data)
+	err := coll.FindOne(context.TODO(), bson.D{{Key: "email", Value: a.Email}}).Decode(&data)
 	if err != nil {
 		return nil, err
 	}
@@ -67,21 +75,21 @@ func (a *Account) GetAccount() (*Account, error) {
 	return &data, nil
 }
 
-func (a *Account) SetAccount(mode string) (*Account, error) {
+func (a *Account) SetAccount(mode EditMode) (*Account, error) {
 	var data Account
 	coll := DB.Collection("account")
 	var update bson.D
 	filter := bson.D{{Key: "email", Value: a.Email}}
 
 	switch mode {
-	case "name":
-		update = bson.D{{Key: "name", Value: a.Name}}
-	case "password":
-		update = bson.D{{Key: "password", Value: a.Password}}
-	case "is_owner":
-		update = bson.D{{Key: "is_owner", Value: a.IsOwner}}
-	case "default":
-		return nil, fmt.Errorf("invalid mode: %s", mode)
+	case Name:
+		update = bson.D{{Key: string(Name), Value: a.Name}}
+	case Password:
+		update = bson.D{{Key: string(Password), Value: a.Password}}
+	case IsOwner:
+		update = bson.D{{Key: string(IsOwner), Value: a.IsOwner}}
+	default:
+		return nil, fmt.Errorf("invalid mode: %s", string(mode))
 	}
 
 	_, err := coll.UpdateOne(context.TODO(), filter, bson.D{{Key: "$set", Value: update}})
