@@ -7,6 +7,6 @@ import (
 func Mirror(app *gin.Engine) {
 	group := app.Group("mirror")
 	{
-		group.Static("/file", "./file")
+		group.Static("/file", "./.file")
 	}
 }

@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/devproje/plog/log"
 	"github.com/devproje/project-website/utils"
@@ -96,23 +97,30 @@ func (p Post) SearchPost() ([]gin.H, error) {
 }
 
 func GetPosts() ([]*Post, error) {
-	var all []*Post
-	var data *Post
-	res, err := postColl().Find(context.TODO(), Post{})
+	var data []Post
+	res, err := postColl().Find(context.TODO(), bson.D{})
 	if err != nil {
 		return nil, err
 	}
 
-	for res.Next(context.TODO()) {
-		err = res.Decode(&data)
-		if err != nil {
-			return nil, err
-		}
-
-		all = append(all, data)
+	if err = res.All(context.TODO(), &data); err != nil {
+		return nil, err
 	}
 
-	return all, nil
+	var items []*Post
+	for _, i := range data {
+		res.Decode(&i)
+
+		fmt.Println(i)
+		items = append(items, &Post{
+			ID:      i.ID,
+			Title:   i.Title,
+			Content: i.Content,
+			Created: i.Created,
+		})
+	}
+
+	return items, nil
 }
 
 func GetPostsCount() (int, error) {
@@ -141,22 +149,21 @@ func DefineID() (int, error) {
 	var id int = -1
 	cnt, err := GetPosts()
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			id = 1
-			return id, nil
-		}
-
 		return id, err
 	}
 
+	if cnt == nil {
+		return 1, nil
+	}
+
 	for i, j := range cnt {
+		def := i + 2
 		if j == nil {
-			id = i
+			id = def
 			return id, nil
 		}
 
-		id = i
+		id = def
 	}
-
 	return id, nil
 }

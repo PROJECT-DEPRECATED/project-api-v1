@@ -10,5 +10,8 @@ project-api
 # configuration files
 config.json
 
-# file directory
-file/
+# data directory
+.file/
+
+# MacOS directory cache file
+.DS_Store

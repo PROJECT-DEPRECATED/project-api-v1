@@ -8,6 +8,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
+func Router(app *gin.Engine) {
+	Index(app)
+	APIV1(app)
+	Resources(app)
+	Mirror(app)
+}
+
 func NotFound(ctx *gin.Context, err error) bool {
 	if err != nil {
 		return false

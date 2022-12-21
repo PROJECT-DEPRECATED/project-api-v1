@@ -2,6 +2,7 @@ package routes
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 	"time"
@@ -20,7 +21,7 @@ func APIV1(app *gin.Engine) {
 		v1.GET("/led", api.GetLed)
 		v1.POST("/led", api.SetLed)
 
-		blog := app.Group("/blog")
+		blog := v1.Group("/blog")
 		{
 			blogRouter(blog)
 		}
@@ -120,6 +121,8 @@ func blogRouter(group *gin.RouterGroup) {
 		if NotFound(ctx, err) {
 			return
 		}
+
+		fmt.Println(posts)
 
 		ctx.JSON(200, gin.H{"status": 200, "type": "query", "page": posts})
 	})
