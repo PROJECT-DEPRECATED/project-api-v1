@@ -1,13 +1,15 @@
-FROM golang:1.19.3-alpine3.16
+FROM golang:1.19.4-alpine3.16
 
-WORKDIR /api/src
+WORKDIR /usr/local/api/src
 COPY . .
 
-RUN go mod tidy
-RUN go build -o /api/project-api /api/src/main.go
-RUN cp ./config.json ../
+RUN apk add make
 
-WORKDIR /api
+RUN ./configure
+RUN make
+RUN cp ./project-api ../ && cp ./config.json ../
+
+WORKDIR /usr/local/api
 RUN rm -rf ./src
 
-ENTRYPOINT [ "/api/project-api" ]
+ENTRYPOINT [ "/usr/local/api/project-api" ]

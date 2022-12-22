@@ -14,6 +14,10 @@ import (
 	"github.com/thinkerou/favicon"
 )
 
+const (
+	VERSION = "v1.1.0"
+)
+
 var (
 	port  int
 	debug bool

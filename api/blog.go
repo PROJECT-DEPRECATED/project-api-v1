@@ -6,7 +6,6 @@ import (
 
 	"github.com/devproje/plog/log"
 	"github.com/devproje/project-website/utils"
-	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -22,6 +21,26 @@ func postColl() *mongo.Collection {
 	return utils.DB.Collection("post")
 }
 
+func (p Post) isExist() bool {
+	dummy := Post{}
+	filter := bson.D{{Key: "_id", Value: p.ID}}
+	if err := postColl().FindOne(context.TODO(), filter).Decode(&dummy); err != nil {
+		return false
+	}
+
+	return true
+}
+
+func query(cur *mongo.Cursor) ([]*Post, error) {
+	var results []*Post
+	if err := cur.All(context.TODO(), &results); err != nil {
+		fmt.Println("test")
+		return nil, err
+	}
+
+	return results, nil
+}
+
 func (p Post) AddPost() error {
 	res, err := postColl().InsertOne(context.TODO(), p)
 	if err != nil {
@@ -33,6 +52,10 @@ func (p Post) AddPost() error {
 }
 
 func (p Post) DropPost() error {
+	if !p.isExist() {
+		return mongo.ErrNoDocuments
+	}
+
 	filter := bson.D{{Key: "_id", Value: p.ID}}
 	res, err := postColl().DeleteOne(context.TODO(), filter)
 	if err != nil {
@@ -44,14 +67,14 @@ func (p Post) DropPost() error {
 }
 
 func (p Post) GetPost() (*Post, error) {
-	var data *Post
+	var data Post
 	filter := bson.D{{Key: "_id", Value: p.ID}}
-	if err := postColl().FindOne(context.TODO(), filter).Decode(data); err != nil {
+	if err := postColl().FindOne(context.TODO(), filter).Decode(&data); err != nil {
 		return nil, err
 	}
 
 	log.Debugf("Document finded with ID: %d\n", p.ID)
-	return data, nil
+	return &data, nil
 }
 
 func (p Post) SetPost() error {
@@ -66,58 +89,30 @@ func (p Post) SetPost() error {
 	return nil
 }
 
-func (p Post) SearchPost() ([]gin.H, error) {
-	var results []Post
+func (p Post) SearchPost() ([]*Post, error) {
 	filter := bson.D{{Key: "title", Value: p.Title}}
 	res, err := postColl().Find(context.TODO(), filter)
 	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			return nil, err
-		}
-
 		return nil, err
 	}
 
-	if err = res.All(context.TODO(), results); err != nil {
+	items, err := query(res)
+	if err != nil {
 		return nil, err
-	}
-
-	var items []gin.H
-	for _, i := range results {
-		res.Decode(&i)
-		items = append(items, gin.H{
-			"_id":     i.ID,
-			"title":   i.Title,
-			"content": i.Content,
-			"created": i.Created,
-		})
 	}
 
 	return items, nil
 }
 
 func GetPosts() ([]*Post, error) {
-	var data []Post
 	res, err := postColl().Find(context.TODO(), bson.D{})
 	if err != nil {
 		return nil, err
 	}
 
-	if err = res.All(context.TODO(), &data); err != nil {
+	items, err := query(res)
+	if err != nil {
 		return nil, err
-	}
-
-	var items []*Post
-	for _, i := range data {
-		res.Decode(&i)
-
-		fmt.Println(i)
-		items = append(items, &Post{
-			ID:      i.ID,
-			Title:   i.Title,
-			Content: i.Content,
-			Created: i.Created,
-		})
 	}
 
 	return items, nil

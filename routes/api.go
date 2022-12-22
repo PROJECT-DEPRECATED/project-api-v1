@@ -2,11 +2,11 @@ package routes
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/devproje/plog/log"
 	"github.com/devproje/project-website/api"
 	"github.com/gin-gonic/gin"
 )
@@ -42,7 +42,7 @@ func blogRouter(group *gin.RouterGroup) {
 
 		title := ctx.PostForm("title")
 		content := ctx.PostForm("content")
-		if title == "" || content == "" {
+		if title == "" && content == "" {
 			NoContentHandler(ctx, errors.New("no content"))
 			return
 		}
@@ -66,7 +66,7 @@ func blogRouter(group *gin.RouterGroup) {
 		}
 
 		form := api.Post{ID: id}
-		if err = form.DropPost(); InternlServerErrHandler(ctx, err) {
+		if err = form.DropPost(); NotFound(ctx, err) {
 			return
 		}
 
@@ -122,9 +122,8 @@ func blogRouter(group *gin.RouterGroup) {
 			return
 		}
 
-		fmt.Println(posts)
-
 		ctx.JSON(200, gin.H{"status": 200, "type": "query", "page": posts})
+		log.Debugf("Found result %d posts", len(posts))
 	})
 	group.GET("/search/:title", func(ctx *gin.Context) {
 		title := strings.ReplaceAll(ctx.Param("title"), "%20", " ")

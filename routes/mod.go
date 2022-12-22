@@ -15,8 +15,13 @@ func Router(app *gin.Engine) {
 	Mirror(app)
 }
 
+func printErr(ctx *gin.Context, status int, err error) {
+	log.Errorln(err)
+	ctx.JSON(status, gin.H{"status": 404, "err": err.Error()})
+}
+
 func NotFound(ctx *gin.Context, err error) bool {
-	if err != nil {
+	if err == nil {
 		return false
 	}
 
@@ -24,18 +29,16 @@ func NotFound(ctx *gin.Context, err error) bool {
 		return InternlServerErrHandler(ctx, err)
 	}
 
-	log.Errorln(err)
-	ctx.JSON(204, gin.H{"status": 404, "err": err.Error()})
+	printErr(ctx, 404, err)
 	return true
 }
 
 func NoContentHandler(ctx *gin.Context, err error) bool {
-	if err != nil {
+	if err == nil {
 		return false
 	}
 
-	log.Errorln(err)
-	ctx.JSON(204, gin.H{"status": 204, "err": err.Error()})
+	printErr(ctx, 204, err)
 	return true
 }
 
@@ -47,7 +50,6 @@ func UnauthorizedHandler(ctx *gin.Context, auth bool) bool {
 	err := errors.New("unauthorized request detected")
 	log.Errorln(err)
 	ctx.JSON(401, gin.H{"status": 401, "auth": auth, "err": err.Error()})
-
 	return true
 }
 
@@ -56,7 +58,6 @@ func InternlServerErrHandler(ctx *gin.Context, err error) bool {
 		return false
 	}
 
-	log.Errorln(err)
-	ctx.JSON(500, gin.H{"status": 500, "err": err.Error()})
+	printErr(ctx, 500, err)
 	return true
 }
