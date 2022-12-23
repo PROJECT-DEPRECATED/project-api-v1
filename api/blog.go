@@ -21,6 +21,7 @@ func postColl() *mongo.Collection {
 	return utils.DB.Collection("post")
 }
 
+// Checking post is exist
 func (p Post) isExist() bool {
 	dummy := Post{}
 	filter := bson.D{{Key: "_id", Value: p.ID}}
@@ -31,6 +32,7 @@ func (p Post) isExist() bool {
 	return true
 }
 
+// Show all posts list
 func query(cur *mongo.Cursor) ([]*Post, error) {
 	var results []*Post
 	if err := cur.All(context.TODO(), &results); err != nil {
@@ -41,6 +43,7 @@ func query(cur *mongo.Cursor) ([]*Post, error) {
 	return results, nil
 }
 
+// Added new post
 func (p Post) AddPost() error {
 	res, err := postColl().InsertOne(context.TODO(), p)
 	if err != nil {
@@ -51,6 +54,7 @@ func (p Post) AddPost() error {
 	return nil
 }
 
+// Deleted exist post
 func (p Post) DropPost() error {
 	if !p.isExist() {
 		return mongo.ErrNoDocuments
@@ -66,6 +70,7 @@ func (p Post) DropPost() error {
 	return nil
 }
 
+// Getting exist post
 func (p Post) GetPost() (*Post, error) {
 	var data Post
 	filter := bson.D{{Key: "_id", Value: p.ID}}
