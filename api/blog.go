@@ -82,6 +82,7 @@ func (p Post) GetPost() (*Post, error) {
 	return &data, nil
 }
 
+// Set exist post's content
 func (p Post) SetPost() error {
 	filter := bson.D{{Key: "_id", Value: p.ID}}
 	update := bson.D{{Key: "$set", Value: p}}
