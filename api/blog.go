@@ -95,6 +95,7 @@ func (p Post) SetPost() error {
 	return nil
 }
 
+// Find target post
 func (p Post) SearchPost() ([]*Post, error) {
 	filter := bson.D{{Key: "title", Value: p.Title}}
 	res, err := postColl().Find(context.TODO(), filter)
@@ -110,6 +111,7 @@ func (p Post) SearchPost() ([]*Post, error) {
 	return items, nil
 }
 
+// Get all posts
 func GetPosts() ([]*Post, error) {
 	res, err := postColl().Find(context.TODO(), bson.D{})
 	if err != nil {
@@ -124,6 +126,7 @@ func GetPosts() ([]*Post, error) {
 	return items, nil
 }
 
+// Get all posts length
 func GetPostsCount() (int, error) {
 	count := 0
 	posts, err := GetPosts()
@@ -146,6 +149,7 @@ func GetPostsCount() (int, error) {
 	return count, nil
 }
 
+// Setting post's id
 func DefineID() (int, error) {
 	var id int = -1
 	cnt, err := GetPosts()
