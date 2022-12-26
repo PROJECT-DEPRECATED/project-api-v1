@@ -17,6 +17,7 @@ type Post struct {
 	Created string `bson:"created"`
 }
 
+// Getting database post collection
 func postColl() *mongo.Collection {
 	return utils.DB.Collection("post")
 }
