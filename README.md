@@ -1,5 +1,5 @@
 # Project API
-REST API backend service
+REST API backend service (DEPRECATED)
 
 ## Feature
 - Minecraft Profile
