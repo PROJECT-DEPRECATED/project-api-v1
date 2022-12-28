@@ -8,6 +8,7 @@ import (
 
 	"github.com/devproje/plog/log"
 	"github.com/devproje/project-website/api"
+	"github.com/devproje/project-website/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -40,6 +41,12 @@ func blogRouter(group *gin.RouterGroup) {
 			return
 		}
 
+		err = utils.AuthUtils(ctx)
+		if err != nil {
+			UnauthorizedHandler(ctx, false)
+			return
+		}
+
 		title := ctx.PostForm("title")
 		content := ctx.PostForm("content")
 		if title == "" && content == "" {
@@ -65,6 +72,11 @@ func blogRouter(group *gin.RouterGroup) {
 			return
 		}
 
+		err = utils.AuthUtils(ctx)
+		if handle := UnauthorizedHandler(ctx, err == nil); !handle {
+			return
+		}
+
 		form := api.Post{ID: id}
 		if err = form.DropPost(); NotFound(ctx, err) {
 			return
@@ -75,6 +87,11 @@ func blogRouter(group *gin.RouterGroup) {
 	group.POST("/set/:id", func(ctx *gin.Context) {
 		id, err := getID(ctx)
 		if InternlServerErrHandler(ctx, err) {
+			return
+		}
+
+		err = utils.AuthUtils(ctx)
+		if handle := UnauthorizedHandler(ctx, err == nil); !handle {
 			return
 		}
 

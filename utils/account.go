@@ -5,7 +5,9 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/devproje/project-website/config"
 	"github.com/google/uuid"
+	"github.com/stretchr/objx"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -98,4 +100,10 @@ func (a *Account) SetAccount(mode EditMode) (*Account, error) {
 	}
 
 	return &data, nil
+}
+
+func SaltHash(password string) string {
+	conf, _ := config.Get()
+	hash := objx.HashWithKey(password, conf.PasswordSalt)
+	return hash
 }

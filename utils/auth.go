@@ -9,13 +9,12 @@ import (
 
 func isAuth(token string) bool {
 	conf, _ := config.Get()
-	return PasswordHash(token) == PasswordHash(conf.Token)
+	return SaltHash(token) == SaltHash(conf.Token)
 }
 
 func AuthUtils(c *gin.Context) error {
 	if !isAuth(c.GetHeader("Authorization")) {
-		c.JSON(401, gin.H{"status": "401"})
-		return errors.New("unauthorized")
+		return errors.New("unauthorized request detected")
 	}
 
 	return nil
