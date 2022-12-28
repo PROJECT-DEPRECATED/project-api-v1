@@ -1,10 +1,10 @@
-SRC=main.go
-TARGET=project-api
-TAG=default
+MAIN = main.go
+SRC = *.go **/*.go
+TARGET = project-api
+TAG = default
 
 $(TARGET): $(SRC)
-	go mod tidy	
-	go build -o $(TARGET) $(SRC)
+	go build -o $(TARGET) $(MAIN)
 
 docker:
 	docker-compose build --no-cache

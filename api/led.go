@@ -4,7 +4,6 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/devproje/project-website/config"
 	"github.com/devproje/project-website/utils"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -36,13 +35,12 @@ func ledBuilder(form string, c *gin.Context) (int64, error) {
 }
 
 func GetLed(c *gin.Context) {
-	conf, _ := config.Get()
 	err := utils.AuthUtils(c)
 	if err != nil {
 		return
 	}
 
-	coll := utils.DB.Database(conf.Database.DbName).Collection(ledCollName)
+	coll := utils.DB.Collection(ledCollName)
 	var result LedData
 	err = coll.FindOne(context.TODO(), bson.D{{Key: "_id", Value: 0}}).Decode(&result)
 	if err != nil {
@@ -64,7 +62,6 @@ func GetLed(c *gin.Context) {
 }
 
 func SetLed(c *gin.Context) {
-	conf, _ := config.Get()
 	err := utils.AuthUtils(c)
 	if err != nil {
 		return
@@ -92,7 +89,7 @@ func SetLed(c *gin.Context) {
 		return
 	}
 
-	coll := utils.DB.Database(conf.Database.DbName).Collection(ledCollName)
+	coll := utils.DB.Collection(ledCollName)
 	_, err = coll.UpdateOne(context.TODO(), bson.D{{Key: "_id", Value: 0}}, bson.D{{Key: "$set", Value: bson.D{
 		{Key: "red", Value: red},
 		{Key: "green", Value: green},

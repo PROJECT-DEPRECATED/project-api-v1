@@ -14,6 +14,10 @@ import (
 	"github.com/thinkerou/favicon"
 )
 
+const (
+	VERSION = "v1.1.0-beta.1"
+)
+
 var (
 	port  int
 	debug bool
@@ -28,7 +32,7 @@ func init() {
 func main() {
 	_, err := config.Get()
 	if err != nil {
-		err := os.WriteFile("config.json", []byte(config.GetSample), 0666)
+		err := os.WriteFile("config.json", []byte(config.GetSample), 0755)
 		if err != nil {
 			log.Fatalf("failed to create 'config.json'\n%v", err)
 		}
@@ -36,9 +40,9 @@ func main() {
 		log.Fatalf("'config.json' isn't exist!\n%v", err)
 	}
 
-	_, err = os.ReadDir("./file")
+	_, err = os.ReadDir("./.file")
 	if err != nil {
-		err := os.Mkdir("./file", 775)
+		err := os.Mkdir("./.file", 0755)
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -58,10 +62,7 @@ func main() {
 	app.Use(favicon.New("./resources/favicon.ico"))
 	app.Use(middleware.Cors)
 
-	routes.Index(app)
-	routes.APIV1(app)
-	routes.Resources(app)
-	routes.Mirror(app)
+	routes.Router(app)
 
 	app.Run(fmt.Sprintf(":%d", port))
 }
